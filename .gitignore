@@ -1,3 +1,43 @@
-.vs
-*/x64
-x64
+# this is .gitignore file.
+
+# 忽略visual studio生成的目录
+x64/
+x86/
+Debug/
+Release/
+.vs/
+
+# 以下是忽略的文件
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app

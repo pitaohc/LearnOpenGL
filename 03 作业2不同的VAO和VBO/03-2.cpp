@@ -1,7 +1,7 @@
 #include"header.h"
 
 unsigned int HEIGHT = 600, WIDTH = 800;
-std::string TITLE = u8"03 作业1 多个三角形"; //字符串前u8前缀表示utf-8编码，GBK编码会乱码
+std::string TITLE = u8"03 作业2 不同的VAO和VBO"; //字符串前u8前缀表示utf-8编码，GBK编码会乱码
 std::string vertexShaderPath = ".\\shader\\vertex.vert";
 std::string fragmentShaderPath = ".\\shader\\fragment.frag";
 
@@ -48,7 +48,7 @@ int WINAPI wWinMain(HINSTANCE hinstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    
+
     // 创建窗口
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, TITLE.c_str(), nullptr, nullptr);
     if (!window)
@@ -129,48 +129,50 @@ int WINAPI wWinMain(HINSTANCE hinstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 
     float vertices[]{
-        0.5f, 0.5f, 0.0f, //P0第一象限
-       -0.5f, 0.5f, 0.0f, //P1第二象限
-       -0.5f,-0.5f, 0.0f, //P2第三象限
-
-        0.5f, 0.5f, 0.0f, //P0第一象限
-       -0.5f,-0.5f, 0.0f, //P2第三象限
-        0.5f,-0.5f, 0.0f, //P3第四象限
-
+         0.0f, 1.0f, 0.0f,
+         1.0f, 0.0f, 0.0f,
+         0.5f,-0.5f, 0.0f,
+        -0.5f,-0.5f, 0.0f,
+        -1.0f, 0.0f, 0.0f,
     };
 
     UINT32 indexs[]{
-        0, 1, 2,
-        0, 2, 3,
+        0,1,2,
+        0,2,3,
+        0,3,4,
     };
-    UINT32 VAO,VBO,EBO;
-    glGenVertexArrays(1, &VAO);
+    UINT32 VAO, VBO, EBO;
+    //0. 生成对象序号
+    glGenVertexArrays(1, &VAO); //1只表示个数，第二个参数可以传入一个数组
     glGenBuffers(1, &VBO);
-    glBindVertexArray(VAO);
+    glGenBuffers(1, &EBO);
+    //1. 绑定顶点数组对象
+    glBindVertexArray(VAO);//此函数是上下文相关的，注意顺序
+    //2. 把顶点数组复制到一个顶点缓冲中，供OpenGL调用
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    //glGenBuffers(1, &EBO);
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    //glBufferData(EBO, sizeof(indexs), indexs, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); //此函数是上下文相关的，注意顺序
+    //3. 复制我们的索引数组到一个索引缓冲中，供OpenGL使用
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexs), indexs, GL_STATIC_DRAW);
+    //4. 设定顶点属性指针
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(0); //参数0与着色器代码中的location有关，启用了顶点着色器的（location = 0）的属性变量
 
     while (!glfwWindowShouldClose(window))
     {
         //输入
         processInput(window);
         //渲染指令
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_TRIANGLES);
         glClearColor(.2f, .3f, .3f, 1.0f); //调用了glClearColor来设置清空屏幕所用的颜色
         glClear(GL_COLOR_BUFFER_BIT);//清空颜色缓冲区
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        glDrawArrays(GL_TRIANGLES, 3, 3);
-        //检查并调用事件，交换缓冲区
+        glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+
         glfwSwapBuffers(window);
-        glfwPollEvents();
+        glfwPollEvents(); //响应事件
         Sleep(9);  //控制在120hz
     }
 
