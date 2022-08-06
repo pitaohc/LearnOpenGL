@@ -11,8 +11,8 @@ constexpr unsigned int HEIGHT = 600;
 constexpr unsigned int WIDTH = 800;
 constexpr char TITLE[] = "03 Hello Triangle";
 constexpr double rotateTheta = 0.005;
-std::string vertexShaderPath = "I:\\Courses\\LearnOpenGL\\LearnOpenGL\\03Triangle\\shader\\vertex.vert";
-std::string fragmentShaderPath = "I:\\Courses\\LearnOpenGL\\LearnOpenGL\\03Triangle\\shader\\fragment.frag";
+std::string vertexShaderPath = ".\\shader\\vertex.vert";
+std::string fragmentShaderPath = ".\\shader\\fragment.frag";
 std::string readShader(const std::string& path)
 {
     std::fstream file(path);
