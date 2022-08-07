@@ -20,6 +20,7 @@ public:
     void setBool(const std::string& name, bool value)const; //传入bool
     void setInt(const std::string& name, int value)const; //传入int
     void setFloat(const std::string& name, float value)const; //传入float
+    void setVec3f(const std::string& name, const float value1, const float value2, const float value3) const; //传入float
 };
 #endif
 

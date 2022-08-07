@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
+<<<<<<< HEAD
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGL模板", "OpenGL模板\OpenGL模板.vcxproj", "{48C22012-B388-4757-9A07-37C169962882}"
+=======
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LearnOpenGLProject", "LearnOpenGLProject\LearnOpenGLProject.vcxproj", "{764D7B33-8FF9-4DFE-87E6-B7AF5A7D9D5B}"
+>>>>>>> 04作业3
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +17,7 @@ Global
 		WinRelease|x64 = WinRelease|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+<<<<<<< HEAD
 		{48C22012-B388-4757-9A07-37C169962882}.ConDebug|x64.ActiveCfg = ConDebug|x64
 		{48C22012-B388-4757-9A07-37C169962882}.ConDebug|x64.Build.0 = ConDebug|x64
 		{48C22012-B388-4757-9A07-37C169962882}.ConRelease|x64.ActiveCfg = ConRelease|x64
@@ -21,6 +26,16 @@ Global
 		{48C22012-B388-4757-9A07-37C169962882}.WinDebug|x64.Build.0 = WinDebug|x64
 		{48C22012-B388-4757-9A07-37C169962882}.WinRelease|x64.ActiveCfg = WinRelease|x64
 		{48C22012-B388-4757-9A07-37C169962882}.WinRelease|x64.Build.0 = WinRelease|x64
+=======
+		{764D7B33-8FF9-4DFE-87E6-B7AF5A7D9D5B}.ConDebug|x64.ActiveCfg = ConDebug|x64
+		{764D7B33-8FF9-4DFE-87E6-B7AF5A7D9D5B}.ConDebug|x64.Build.0 = ConDebug|x64
+		{764D7B33-8FF9-4DFE-87E6-B7AF5A7D9D5B}.ConRelease|x64.ActiveCfg = ConRelease|x64
+		{764D7B33-8FF9-4DFE-87E6-B7AF5A7D9D5B}.ConRelease|x64.Build.0 = ConRelease|x64
+		{764D7B33-8FF9-4DFE-87E6-B7AF5A7D9D5B}.WinDebug|x64.ActiveCfg = WinDebug|x64
+		{764D7B33-8FF9-4DFE-87E6-B7AF5A7D9D5B}.WinDebug|x64.Build.0 = WinDebug|x64
+		{764D7B33-8FF9-4DFE-87E6-B7AF5A7D9D5B}.WinRelease|x64.ActiveCfg = WinRelease|x64
+		{764D7B33-8FF9-4DFE-87E6-B7AF5A7D9D5B}.WinRelease|x64.Build.0 = WinRelease|x64
+>>>>>>> 04作业3
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
