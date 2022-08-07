@@ -1,10 +1,9 @@
 #include "head.h"
 #include "Shader.h"
 unsigned int HEIGHT = 600, WIDTH = 800;
-std::string TITLE = u8"04 作业2 偏移三角形"; //字符串前u8前缀表示utf-8编码，GBK编码会乱码
+std::string TITLE = u8"04 作业3 位置与颜色"; //字符串前u8前缀表示utf-8编码，GBK编码会乱码
 std::string vertexShaderPath = ".\\shader\\vertex.vert";
 std::string fragmentShaderPath = ".\\shader\\fragment.frag";
-unsigned short frame_rate = 120;
 
 
 UINT32 getFPS()
@@ -18,11 +17,11 @@ UINT32 getFPS()
     int curTime = clock();
     if (curTime - lastTime > UNITTIME) // 取固定时间间隔为1秒
     {
-        fps = frameCount;
+        fps = frameCount * 1000 / (curTime - lastTime);
         frameCount = 0;
         lastTime = curTime;
     }
-    return fps * 1000 / UNITTIME;
+    return fps;
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -50,7 +49,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     glfwInit();
     glfwWindowHint(GLFW_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_VERSION_MINOR, 3);
-    
+
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, TITLE.c_str(), nullptr, nullptr);
     if (!window)
     {
@@ -59,7 +58,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         return 1;
     }
     glfwMakeContextCurrent(window); //设置上下文
-    glfwSetKeyCallback(window,key_callback); //设置键盘回调函数
+    glfwSetKeyCallback(window, key_callback); //设置键盘回调函数
     //初始化GLAD
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -97,8 +96,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    //glEnableVertexAttribArray(1);
     while (!glfwWindowShouldClose(window))
     {
         //1. 响应事件

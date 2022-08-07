@@ -21,9 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{48c22012-b388-4757-9a07-37c169962882}</ProjectGuid>
-    <RootNamespace>My04作业1颠倒三角形</RootNamespace>
+    <ProjectGuid>{764d7b33-8ff9-4dfe-87e6-b7af5a7d9d5b}</ProjectGuid>
+    <RootNamespace>LearnOpenGLProject</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>LearnOpenGLProject</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ConDebug|x64'" Label="Configuration">

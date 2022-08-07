@@ -22,7 +22,7 @@ std::string Shader::readShader(const char* path)
     }
     catch (const std::ifstream::failure& e)
     {
-        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ  " << e.what() << std::endl;
+        std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ  " << e.what() << std::endl;
     }
     return shaderCode;
 }
@@ -47,13 +47,15 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
     if (!status)
     {
         glGetShaderInfoLog(vertex, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        throw infoLog;
     };
     glGetShaderiv(fragment, GL_COMPILE_STATUS, &status);
     if (!status)
     {
         glGetShaderInfoLog(fragment, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        throw infoLog;
     };
     // 链接着色器
     ID = glCreateProgram();
@@ -65,7 +67,8 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
     if (!status)
     {
         glGetProgramInfoLog(ID, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+        std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+        throw infoLog;
     }
     // 删除着色器，它们已经链接到我们的程序中了，已经不再需要了
     glDeleteShader(vertex);
