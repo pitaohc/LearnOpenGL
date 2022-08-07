@@ -13,12 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="shader">
-      <UniqueIdentifier>{fa582779-d5bd-451e-a6ed-22bfd5d6bd1d}</UniqueIdentifier>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{d5b4055a-dc85-459d-8c3f-b4d62b8074d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="triangle.cpp">
+    <ClCompile Include="offset.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdpart\src\glad.c">
@@ -26,11 +29,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader\vertex.vert">
-      <Filter>shader</Filter>
-    </None>
+    <ClInclude Include="head.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="shader\fragment.frag">
-      <Filter>shader</Filter>
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="shader\vertex.vert">
+      <Filter>Shader</Filter>
     </None>
   </ItemGroup>
 </Project>

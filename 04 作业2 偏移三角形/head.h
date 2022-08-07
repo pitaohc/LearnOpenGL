@@ -1,6 +1,9 @@
 #pragma once
-#include<glad/glad.h> //查找对应接口位置的库 
-#include<glfw3.h>  //OpenGL接口库
+#ifndef HEAD_H
+#define HEAD_H
+
+#include<glad/glad.h>
+#include<glfw3.h>
 #include<iostream>
 #include<string>
 #include<cmath>
@@ -8,5 +11,8 @@
 #include<fstream>
 #include<sstream>
 #include<Windows.h>
+#include<chrono>
 extern unsigned int HEIGHT, WIDTH; //高和宽
 extern std::string TITLE; //窗口标题
+extern unsigned short frame_rate;
+#endif
