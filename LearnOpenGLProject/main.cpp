@@ -20,6 +20,7 @@ UINT32 getFPS()
         fps = frameCount * 1000 / (curTime - lastTime);
         frameCount = 0;
         lastTime = curTime;
+        std::cout<<"FPS: " << fps << std::endl;
     }
     return fps;
 }
@@ -101,7 +102,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     while (!glfwWindowShouldClose(window))
     {
         //1. 响应事件
-        std::cout << "FPS: " << getFPS() << std::endl;
+        getFPS();
         glfwPollEvents();
         //2. 渲染
         //清空缓冲区

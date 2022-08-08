@@ -43,5 +43,6 @@
     <None Include="shader\vertex.vert">
       <Filter>Shader</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

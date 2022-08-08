@@ -157,6 +157,7 @@
     <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="shader\fragment.frag" />
     <None Include="shader\vertex.vert" />
   </ItemGroup>
