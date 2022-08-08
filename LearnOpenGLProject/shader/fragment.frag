@@ -7,5 +7,6 @@ uniform 需要在运行时动态取得ID，增加性能开销
 */
 void main()
 {
-	FragColor = vec4(vertexColor.x,vertexColor.y,vertexColor.z+0.7f,1.0f); //添加一点蓝色
+//	FragColor = vec4(vertexColor.x,vertexColor.y,vertexColor.z+0.7f,1.0f); //添加一点蓝色
+	FragColor = vec4(vertexColor,1.0f);
 }

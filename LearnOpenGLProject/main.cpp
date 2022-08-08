@@ -67,19 +67,36 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         glfwTerminate();
         return 1;
     }
-
+    
     //创建视口
     glViewport(0, 0, WIDTH, HEIGHT);
 
     Shader shaderProgram(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
     float vertices[] = {
         // 位置              // 颜色
-         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // 右下
-        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // 左下
-         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // 顶部
+        -0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   // A
+         0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   // B
+         0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   // C
+        -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   // D
+        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,   // E
+         0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,   // F
+         0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,   // G
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,   // H
+
     };
     UINT32 indexs[]{
     0,1,2,
+    0,2,3,
+    0,1,4,
+    1,4,5,
+    4,5,6,
+    4,5,7,
+    2,6,7,
+    2,3,7,
+    0,4,7,
+    0,3,7,
+    1,5,6,
+    1,2,6,
     };
     UINT32 VAO, VBO, EBO;
     //0. 生成对象序号
@@ -97,8 +114,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    //glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    
     while (!glfwWindowShouldClose(window))
     {
         //1. 响应事件
@@ -106,7 +124,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         glfwPollEvents();
         //2. 渲染
         //清空缓冲区
-        glPolygonMode(GL_FRONT_AND_BACK, GL_TRIANGLES);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glClearColor(51.0 / 255.0, 76.0 / 255.0, 76 / 255.0, 1.0f); //调用了glClearColor来设置清空屏幕所用的颜色
         glClear(GL_COLOR_BUFFER_BIT);//清空颜色缓冲区
 
@@ -118,7 +136,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         //shaderProgram.setFloat("deltaY", deltaYPos);
         shaderProgram.setVec3f("deltaPos", deltaXPos, deltaYPos, 0);
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void*)(0 * sizeof(float)));
         glBindVertexArray(0);
         //3. 切换缓冲区
         glfwSwapBuffers(window);

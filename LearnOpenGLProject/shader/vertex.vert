@@ -1,12 +1,16 @@
 #version 330 core
 layout(location = 0) in vec3 aPos; //位置
+layout(location = 1) in vec3 aColor; //位置
 uniform vec3 deltaPos;
 out vec3 vertexColor; //颜色输出
 void main()
 {
-    gl_Position = vec4(aPos.x+deltaPos.x,aPos.y+deltaPos.y,aPos.z+deltaPos.z, 1.0);
+    gl_Position = vec4( (aPos.x+deltaPos.x)/(aPos.z+deltaPos.z+2),
+                        (aPos.y+deltaPos.y)/(aPos.z+deltaPos.z+2),
+                        aPos.z+deltaPos.z, 
+                        1.0);
     
-    vertexColor = aPos + deltaPos; //输出颜色给片段着色器
+    vertexColor = aColor; //输出颜色给片段着色器
     /*
     回答问题：你知道为什么左下角是黑色的吗？
     ----------------------------------------------------------------------
