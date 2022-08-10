@@ -11,6 +11,9 @@
 #include<fstream>
 #include<sstream>
 #include<Windows.h>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include<stb_image.h>
 extern unsigned int HEIGHT, WIDTH; //高和宽
 extern std::string TITLE; //窗口标题
 #endif

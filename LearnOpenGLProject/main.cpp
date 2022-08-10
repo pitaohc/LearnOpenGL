@@ -1,7 +1,7 @@
 #include "head.h"
 #include "Shader.h"
-unsigned int HEIGHT = 600, WIDTH = 800;
-std::string TITLE = u8"04 作业3 位置与颜色"; //字符串前u8前缀表示utf-8编码，GBK编码会乱码
+unsigned int HEIGHT = 800, WIDTH = 800;
+std::string TITLE = u8"05 纹理"; //字符串前u8前缀表示utf-8编码，GBK编码会乱码
 std::string vertexShaderPath = ".\\shader\\vertex.vert";
 std::string fragmentShaderPath = ".\\shader\\fragment.frag";
 
@@ -20,6 +20,7 @@ UINT32 getFPS()
         fps = frameCount * 1000 / (curTime - lastTime);
         frameCount = 0;
         lastTime = curTime;
+        std::cout << "FPS: " << fps << std::endl;
     }
     return fps;
 }
@@ -72,14 +73,46 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
     Shader shaderProgram(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
     float vertices[] = {
-        // 位置              // 颜色
-         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // 右下
-        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // 左下
-         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // 顶部
+        // positions          // colors           // texture coords
+         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
+         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
+        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f,  // top left 
     };
-    UINT32 indexs[]{
-    0,1,2,
+    UINT32 indexs[] = {
+        0, 1, 3, // first triangle
+        1, 2, 3,  // second triangle
     };
+
+    //加载纹理图片
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    // 为当前绑定的纹理对象设置环绕、过滤方式
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // 加载并生成纹理
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load("img/01/06/container.jpg", &width, &height, &nrChannels, 0);
+    if (!data)
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    stbi_image_free(data);    /*
+    第一个参数指定了纹理目标(Target)。设置为GL_TEXTURE_2D意味着会生成与当前绑定的纹理对象在同一个目标上的纹理（任何绑定到GL_TEXTURE_1D和GL_TEXTURE_3D的纹理不会受到影响）。
+    第二个参数为纹理指定多级渐远纹理的级别，如果你希望单独手动设置每个多级渐远纹理的级别的话。这里我们填0，也就是基本级别。
+    第三个参数告诉OpenGL我们希望把纹理储存为何种格式。我们的图像只有RGB值，因此我们也把纹理储存为RGB值。
+    第四个和第五个参数设置最终的纹理的宽度和高度。我们之前加载图像的时候储存了它们，所以我们使用对应的变量。
+    下个参数应该总是被设为0（历史遗留的问题）。
+    第七第八个参数定义了源图的格式和数据类型。我们使用RGB值加载这个图像，并把它们储存为char(byte)数组，我们将会传入对应值。
+    最后一个参数是真正的图像数据。
+    */
+
     UINT32 VAO, VBO, EBO;
     //0. 生成对象序号
     glGenVertexArrays(1, &VAO);
@@ -94,14 +127,20 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO); //设置EBO为索引缓冲区
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexs), indexs, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    //glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+
     while (!glfwWindowShouldClose(window))
     {
         //1. 响应事件
-        std::cout << "FPS: " << getFPS() << std::endl;
+        getFPS();
+        //std::cout << "FPS: " << getFPS() << std::endl;
         glfwPollEvents();
         //2. 渲染
         //清空缓冲区
@@ -109,15 +148,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         glClearColor(51.0 / 255.0, 76.0 / 255.0, 76 / 255.0, 1.0f); //调用了glClearColor来设置清空屏幕所用的颜色
         glClear(GL_COLOR_BUFFER_BIT);//清空颜色缓冲区
 
+        // bind Texture
+        glBindTexture(GL_TEXTURE_2D, texture);
+
+        // render container
         shaderProgram.use();
-        float timeValue = glfwGetTime();
-        float deltaXPos = cos(timeValue) / 4.0; //计算颜色值
-        float deltaYPos = sin(timeValue) / 4.0;
-        //shaderProgram.setFloat("deltaX", deltaXPos);
-        //shaderProgram.setFloat("deltaY", deltaYPos);
-        shaderProgram.setVec3f("deltaPos", deltaXPos, deltaYPos, 0);
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
         //3. 切换缓冲区
         glfwSwapBuffers(window);
@@ -125,6 +162,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         //4. TODO 控制帧率
         //暂时没有较好的解决办法，sleep不能达到目标帧率，循环延迟占用CPU，且精度不高
     }
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
     glfwTerminate();
     return 0;
 
